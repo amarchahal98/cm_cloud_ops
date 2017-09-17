@@ -1,0 +1,42 @@
+---
+# tasks file for mariadb
+
+    - name: install packages
+      yum: 
+        name: "{{ item }}"
+        state: present
+      with_items:
+        - mariadb
+        - mariadb-server
+        - MySQL-python
+      become: true
+      notify: 
+        - disable mariadb root account remotely
+        - set root password
+        - remove anonymous users
+        - delete testdb
+        - restart mariadb service
+
+    - name: update packages
+      yum:
+        name: "{{ item }}"
+        state: latest
+      with_items:
+        - mariadb
+        - mariadb-server
+        - MySQL-python
+      become: true
+
+    - name: configure mariadb service
+      service:
+        name: mariadb
+        state: started
+        enabled: yes
+      become: true
+
+
+
+
+    - meta: flush_handlers
+
+
