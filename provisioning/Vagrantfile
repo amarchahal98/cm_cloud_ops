@@ -25,3 +25,4 @@ end
     ansible.inventory_path = "./hosts"
 	end
   end
+

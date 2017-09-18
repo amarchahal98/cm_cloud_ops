@@ -94,23 +94,28 @@
 
     - name: Copy nginx.conf
       copy:
-        src: ../basic_web_service/files/nginx.conf
+        src: files/nginx.conf
         dest: /etc/nginx/nginx.conf 
 
     - name: Copy php.ini
       copy:
-        src: ../basic_web_service/files/php.ini
+        src: files/php.ini
         dest: /etc/php.ini
 
     - name: Copy www.conf
       copy:
-        src: ../basic_web_service/files/www.conf
+        src: files/www.conf
         dest: /etc/php-fpm.d/www.con
 
     - name: Copy wp-config.php
       copy:
-        src: ../basic_web_service/files/wp-config.php
+        src: files/wp-config.php
         dest: wordpress/wp-config.php
+
+    - name: Copy mariadb_security_config.sql
+      copy:
+        src: files/mariadb_security_config.sql
+        dest: /home/admin/
 
 
     - name: rsync
@@ -124,5 +129,5 @@
         group: nginx
       become: true
 
-    - script: ~/Documents/Semester3/cm_cloud_ops/basic_web_service/files/wp_mariadb_config.sh
+    - script: files/wp_mariadb_config.sh
 ...

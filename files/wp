@@ -3,7 +3,7 @@ systemd-cat -p "Starting the daemon --Amar" -t wp_mariadb_config printf "%s" "wp
 
 #execute wp_mariadb_config.sql statements as the root mysql user, 
 
-sudo mysql -u root < /home/admin/mariadb_security_config.sql
+sudo mysql -u root < mariadb_security_config.sql
 
 #Disable the wp_mariadb_config.service
 systemctl disable wp_mariadb_config.service
