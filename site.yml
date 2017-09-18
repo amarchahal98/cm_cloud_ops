@@ -63,6 +63,12 @@
         name: mariadb-server
         state: present
 
+    - name: Install php-fpm
+      yum:
+        name: php-fpm
+        state: present
+
+
     - name: configure mariadb service
       service:
         name: mariadb
@@ -70,6 +76,21 @@
         enabled: yes
       become: true
 
+
+    - name: configure nginx service
+      service:
+        name: nginx
+        state: started
+        enabled: yes
+      become: true
+
+
+    - name: conigure php-fpm service
+      service:
+        name: php-fpm
+        state: started
+        enabled: yes
+      become: true
 
     - name: Install tcpdump
       yum:
