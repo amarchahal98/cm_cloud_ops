@@ -63,6 +63,14 @@
         name: mariadb-server
         state: present
 
+    - name: configure mariadb service
+      service:
+        name: mariadb
+        state: started
+        enabled: yes
+      become: true
+
+
     - name: Install tcpdump
       yum:
         name: vim

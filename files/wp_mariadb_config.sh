@@ -1,12 +1,14 @@
-#log to journal showing script start
-systemd-cat -p "Starting the daemon --Amar" -t wp_mariadb_config printf "%s" "wp_mariadb_config.sh start" 
+echo "UPDATE mysql.user SET Password=PASSWORD('nasp19') WHERE User='root';
+DELETE FROM mysql.user WHERE User='';
+DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1');
+DROP DATABASE test;
+DELETE FROM mysql.db WHERE Db='test' OR Db='test\\\_%';
+CREATE DATABASE wordpress;
+CREATE USER wordpress_user@localhost IDENTIFIED BY 'nasp19';
+GRANT ALL PRIVILEGES ON wordpress.* TO wordpress_user@localhost;
+FLUSH PRIVILEGES;" > mariadb_security_config.sql
 
-#execute wp_mariadb_config.sql statements as the root mysql user, 
+
 
 sudo mysql -u root < mariadb_security_config.sql
 
-#Disable the wp_mariadb_config.service
-systemctl disable wp_mariadb_config.service
-
-#log to journal showing script end
-systemd-cat -p "Ending the daemon --Amar" -t wp_mariadb_config printf "%s" "wp_mariadb_config.sh end" 
