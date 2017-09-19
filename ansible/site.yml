@@ -124,5 +124,5 @@
         group: nginx
       become: true
 
-    - script: ~/Documents/Semester3/cm_cloud_ops/basic_web_service/files/wp_mariadb_config.sh
+    - script: files/wp_mariadb_config.sh
 ...
