@@ -1,0 +1,16 @@
+# VARS #
+vpc_cidr="172.16.0.0/16"
+vpc_name="nasp_vpc_2"
+subnet_name="nasp_sn_web_2"
+subnet_cidr="172.16.2.0/24"
+gateway_name="nasp_gw_2"
+route_table_name="nasp_web_rt_2"
+default_cidr="0.0.0.0/0"
+security_group_name="nasp_web_sg_2"
+security_group_desc="Allow the following protocols from BCIT/Home: http, https, ssh"
+bcit_cidr="142.232.0.0/16"
+instance_type="t2.micro"
+centos_7_ami_id="ami-d2c924b2"
+ssh_key_name="MyKeyName.pem"
+instance_ip="172.16.2.101"
+
