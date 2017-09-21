@@ -4,10 +4,7 @@ name="wordpress"
 nat_name="nasp_cm_co"
 
 # Host Firewall Configuration
-sudo firewall-cmd --zone=public --add-port=50022/tcp --permanent
-sudo firewall-cmd --zone=public --add-port=50080/tcp --permanent
-sudo firewall-cmd --zone=public --add-port=50443/tcp --permanent
-
+for var in 50022 50080 50443; do sudo firewall-cmd --zone=public --add-port=${var}/tcp --permanent; done
 # Virtual Box Network Configuration
 vboxmanage natnetwork add --netname "${nat_name}" --network "192.168.254.0/24" --dhcp off
 
