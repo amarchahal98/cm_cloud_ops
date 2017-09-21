@@ -32,4 +32,4 @@ addr_association_id=$(aws ec2 associate-address \
                            --instance-id $instance_id \
                            --allocation-id $elastic_ip_allocation_id \
                            --query AssociationId \
-                           -output text)
+                           --output text)
