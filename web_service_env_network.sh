@@ -15,3 +15,5 @@ vboxmanage natnetwork modify --netname nasp_cm_co --port-forward-4 "ssh:tcp:[]:5
 vboxmanage natnetwork modify --netname nasp_cm_co --port-forward-4 "http:tcp:[]:50080:[192.168.254.10]:80"
 vboxmanage natnetwork modify --netname nasp_cm_co --port-forward-4 "https:tcp:[]:50443:[192.168.254.10]:443"
 
+# IPV4 Port Forwards for pxe
+vboxmanage natnetwork modify --netname nasp_cm_co --port-forward-4 "pxessh:tcp:[]:60022:[192.168.254.5]:22"
