@@ -1,0 +1,13 @@
+- name: Wait until SSH is available on ec2 instance
+  wait_for:
+    host: "{{ eip_var.public_ip  }}"
+    port: 22
+    delay: 10
+    connect_timeout: 20
+    timeout: 120
+    state: started
+
+- name: Wait until Cloud-Init completes
+  wait_for:
+    timeout: 10
+
