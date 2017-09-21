@@ -3,11 +3,21 @@
   become: yes
   tasks:
   
-    - name: Instruct Firewalld to accept incoming HTTP and HTTPS connections
-      firewalld: service={{item}} permanent=yes state=enabled
-      with_items:
-          - http
-          - https
+    - name: allow https
+      firewalld:
+        service: https
+        permanent: true
+        state: enabled
+        immediate: yes
+      become: true
+
+    - name: allow http
+      firewalld:
+        service: http
+        permanent: true
+        state: enabled
+        immediate: yes
+      become: true
 
     - name: Install EPEL-Release Yum Repository
       yum_repository:
@@ -15,7 +25,7 @@
         description: EPEL Yum Repository
         baseurl: https://download.fedoraproject.org/pub/epel/$releasever/$basearch/
 
-    - name: Install ngnix  repo rpm
+    - name: Install ngnix repo rpm
       yum:
         name: http://nginx.org/packages/centos/7/noarch/RPMS/nginx-release-centos-7-0.el7.ngx.noarch.rpm
       become: true
@@ -62,7 +72,7 @@
       yum:
         name: mariadb-server
         state: present
-
+      become: true
     - name: Install tcpdump
       yum:
         name: vim
@@ -72,19 +82,18 @@
       yum:
         name: php
         state: present
+      become: true
 
     - name: Install php-fpm
       yum:
         name: php-fpm
         state: present
+      become: true
 
     - name: Install php-mysql
       yum:
         name: php-mysql
         state: present
-
-
-
 
     - name: Download and unarchive the latest wordpress files
       unarchive:
@@ -112,11 +121,8 @@
         src: files/wp-config.php
         dest: wordpress/wp-config.php
 
-    - name: Copy mariadb_security_config.sql
-      copy:
-        src: files/mariadb_security_config.sql
-        dest: /home/admin/
-
+    - copy: content="<?php phpinfo(); ?>" dest="/usr/share/nginx/html/info.php"
+      become: true
 
     - name: rsync
       command: >
@@ -129,5 +135,34 @@
         group: nginx
       become: true
 
+    - name: configure mariadb service
+      service:
+        name: mariadb
+        state: started
+        enabled: yes
+      become: true
+
+    - name: configure nginx service
+      service:
+        name: nginx
+        state: started
+        enabled: yes
+      become: true
+
+    - name: configure php-fpm service
+      service:
+        name: php-fpm
+        state: started
+        enabled: yes
+      become: true
+
     - script: files/wp_mariadb_config.sh
+
+    - name: restart mariadb
+      service:
+        name: mariadb
+        state: restarted
+      become: true
+
 ...
+
