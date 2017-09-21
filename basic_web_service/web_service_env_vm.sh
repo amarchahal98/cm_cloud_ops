@@ -41,5 +41,5 @@ scp files/php.ini pxe:/usr/share/nginx/html/
 scp files/mariadb_security_config.sql pxe:/usr/share/nginx/html/
 scp files/wp_mariadb_config.sh pxe:/usr/share/nginx/html/
 
-# It Begin #
+# It Begins #
 vboxmanage startvm $name

@@ -1,7 +1,7 @@
 #!/bin/sh -
 # currently installed to /etc/systemd/system/wp_mariadb_config.service
 [Unit]
-Description=Intial Mariadb Wordpress Configurator
+Description=Initial Mariadb Wordpress Configurator
 
 #Specify the service that this unit must be executed after and that it requires
 After=mariadb.service

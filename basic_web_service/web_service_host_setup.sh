@@ -25,6 +25,7 @@ sudo firewall-cmd --zone=public --add-port=80/tcp --permanent
 sudo firewall-cmd --zone=public --add-port=443/tcp --permanent
 
 # Install Packages
+sudo yum update
 sudo yum install -y epel-release 
 sudo yum install -y nginx mariadb-server mariadb php php-mysql php-fpm
 sudo yum install -y kernel-devel kernel-headers dkms gcc gcc-c++ kexec-tools
@@ -35,6 +36,11 @@ sudo systemctl start nginx
 sudo systemctl enable nginx
 sudo systemctl start mariadb
 sudo systemctl enable mariadb
+sudo systemctl start firewalld
+sudo systemctl enable firewalld
+sudo systemctl start php-fpm
+sudo systemctl enable php-fpm
+
 echo "# Set root password
 UPDATE mysql.user SET Password=PASSWORD('nasp19') WHERE User='root';
 
@@ -135,6 +141,7 @@ sudo touch /usr/share/nginx/html/info.php
 
 sudo echo "<?php phpinfo(); ?>" > /usr/share/nginx/html/info.php
 
+systemctl restart nginx
 sudo echo -n "## Wordpress Database Setup
 CREATE DATABASE wordpress;
 CREATE USER wordpress_user@localhost IDENTIFIED BY 'nasp19';
@@ -142,7 +149,6 @@ GRANT ALL PRIVILEGES ON wordpress.* TO wordpress_user@localhost;
 
 # Reload privilege tables
 FLUSH PRIVILEGES;" >> wp_mariadb_config.sql
-sudo systemctl restart nginx
 sudo systemctl restart mariadb
 
 # Password is required here
