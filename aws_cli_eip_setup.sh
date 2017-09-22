@@ -12,6 +12,5 @@ elastic_ip=$(aws ec2 describe-addresses \
                           --output text)
 echo "elastic_ip=$elastic_ip" >> state_file
 
-aws ec2 create-key-pair --key-name $ssh_key_name --output text > ${ssh_key_name}
-
+aws ec2 create-key-pair --key-name $ssh_key_name --query 'KeyMaterial' --output text > ${ssh_key_name}
 chmod 400 $ssh_key_name

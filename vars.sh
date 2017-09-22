@@ -11,6 +11,6 @@ security_group_desc="Allow the following protocols from BCIT/Home: http, https, 
 bcit_cidr="142.232.0.0/16"
 instance_type="t2.micro"
 centos_7_ami_id="ami-d2c924b2"
-ssh_key_name="MyKeyName.pem"
+ssh_key_name="AWSCLIScripted.pem"
 instance_ip="172.16.2.101"
 

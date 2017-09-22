@@ -1,0 +1,8 @@
+vpc_id=vpc-5a37583c
+subnet_id=subnet-165e1f4d
+gateway_id=igw-9b094bfc
+route_table_id=rtb-79549e00
+rt_association_id=rtbassoc-8da831f5
+security_group_id=sg-3395514e
+elastic_ip_allocation_id=eipalloc-e409a6d9
+elastic_ip=34.214.229.182
