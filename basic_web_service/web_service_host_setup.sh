@@ -1,23 +1,6 @@
 #!/bin/bash
 
 # Remove pre-existing network file, and replace it with the following content
-rm -rf /etc/sysconfig/network-scripts/ifcfg-enp0s3
-touch /etc/sysconfig/network-scripts/ifcfg-enp0s3
-sudo echo "TYPE=Ethernet 
-BOOTPROTO=none 
-DEFROUTE=yes 
-PEERDNS=yes 
-PEERROUTES=yes 
-IPV4_FAILURE_FATAL=no 
-NAME=enp0s3 
-DEVICE=enp0s3 
-ONBOOT=yes 
-IPADDR=192.168.254.10 
-NETMASK=255.255.255.0 
-NETWORK=192.168.254.0 
-GATEWAY=192.168.254.1
-DNS1=142.232.221.253" > /etc/sysconfig/network-scripts/ifcfg-enp0s3
-
 # Public is the default zone
 sudo systemctl restart network
 sudo firewall-cmd --zone=public --add-port=22/tcp --permanent
@@ -25,7 +8,7 @@ sudo firewall-cmd --zone=public --add-port=80/tcp --permanent
 sudo firewall-cmd --zone=public --add-port=443/tcp --permanent
 
 # Install Packages
-sudo yum update
+sudo yum update -y
 sudo yum install -y epel-release 
 sudo yum install -y nginx mariadb-server mariadb php php-mysql php-fpm
 sudo yum install -y kernel-devel kernel-headers dkms gcc gcc-c++ kexec-tools
@@ -58,8 +41,10 @@ DELETE FROM mysql.db WHERE Db='test' OR Db='test\\\_%';" > mariadb_security_conf
 # No root password has been set yet, although after the following line and mariadb service restart, the password will be set.
 sudo mysql -u root < mariadb_security_config.sql
 
-
+sudo rm -f /etc/nginx/nginx.conf
+sudo touch /etc/nginx/nginx.conf
 sudo cat > /etc/nginx/nginx.conf << EOF
+
 # For more information on configuration, see:
 #   * Official English Documentation: http://nginx.org/en/docs/
 #   * Official Russian Documentation: http://nginx.org/ru/docs/
@@ -124,12 +109,11 @@ http {
     }
 }
 
-
 EOF
 
 # Edit configuration files
 
-sudo sed -i 's/;cgi.fix_pathinfo=0/cgi.fix_pathinfo=1/g' /etc/php.ini
+sudo sed -i 's/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/g' /etc/php.ini
 sudo sed -i 's/listen = 127.0.0.1:9000/listen = \/var\/run\/php-fpm\/php-fpm.sock/g' /etc/php-fpm.d/www.conf
 sudo sed -i '31,32s/.//' /etc/php-fpm.d/www.conf
 sudo sed -i 's/user = apache/user = nginx/g' /etc/php-fpm.d/www.conf
@@ -141,7 +125,7 @@ sudo touch /usr/share/nginx/html/info.php
 
 sudo echo "<?php phpinfo(); ?>" > /usr/share/nginx/html/info.php
 
-systemctl restart nginx
+sudo systemctl restart nginx
 sudo echo -n "## Wordpress Database Setup
 CREATE DATABASE wordpress;
 CREATE USER wordpress_user@localhost IDENTIFIED BY 'nasp19';
