@@ -30,7 +30,7 @@ VBoxManage createhd --filename ~/VirtualBox\ VMs/$name/$name.vdi --size 20480
 VBoxManage storageattach $name --storagectl "IDE Controller" --port 0 --device 1 --type hdd --medium ~/VirtualBox\ VMs/$name/$name.vdi > /dev/null 2>&1 
 VBoxManage storageattach $name --storagectl "IDE Controller" --port 1 --device 0 --type dvddrive --medium /usr/share/virtualbox/VBoxGuestAdditions.iso # Attach the VirtualBox Guest Additions CD
 
-
+scp files/wp_ks.cfg pxe:/usr/share/nginx/html/
 vboxmanage startvm $name
 
 until [[ $(ssh -q wp exit && echo "online") == "online" ]] ; do

@@ -15,10 +15,9 @@
         description: EPEL Yum Repository
         baseurl: https://download.fedoraproject.org/pub/epel/$releasever/$basearch/
 
-    - name: Install ngnix  repo rpm
+    - name: install ngnix repo
       yum:
         name: http://nginx.org/packages/centos/7/noarch/RPMS/nginx-release-centos-7-0.el7.ngx.noarch.rpm
-      become: true
 
 
     - name: Install vim
@@ -74,7 +73,6 @@
         name: mariadb
         state: started
         enabled: yes
-      become: true
 
 
     - name: configure nginx service
@@ -82,7 +80,6 @@
         name: nginx
         state: started
         enabled: yes
-      become: true
 
 
     - name: conigure php-fpm service
@@ -90,7 +87,6 @@
         name: php-fpm
         state: started
         enabled: yes
-      become: true
 
     - name: Install tcpdump
       yum:
@@ -111,9 +107,6 @@
       yum:
         name: php-mysql
         state: present
-
-
-
 
     - name: Download and unarchive the latest wordpress files
       unarchive:
@@ -142,16 +135,28 @@
         dest: wordpress/wp-config.php
 
 
-    - name: rsync
+    - name: rsync files to nginx's web server
       command: >
-        rsync -avP /home/admin/wordpress /usr/share/nginx/html/
+        rsync -avP /home/admin/wordpress/ /usr/share/nginx/html/
 
     - name: Change Ownership for nginx files
       file:
-        path: /usr/share/nginx/html
+        path: /usr/share/nginx/html/
         owner: admin
         group: nginx
-      become: true
+        recurse: yes
 
-    - script: ./files/wp_mariadb_config.sh
+    - script: ./files/mariadb_security_config.sql
+
+    - name: Restart all modified services
+      service:
+        name: "{{ item }}"
+        state: restarted
+      with_items:
+        - nginx
+        - mariadb
+        - php-fpm
+        - firewalld
+
+
 ...
