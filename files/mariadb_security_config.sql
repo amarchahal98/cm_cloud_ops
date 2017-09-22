@@ -1,4 +1,3 @@
-# Set root password
 UPDATE mysql.user SET Password=PASSWORD('nasp19') WHERE User='root';
 
 # Remove anonymous users
