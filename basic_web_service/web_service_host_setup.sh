@@ -155,3 +155,4 @@ sudo sudo mkdir /usr/share/nginx/html/wp-content/uploads
 # Change ownership
 sudo chown -R admin:nginx /usr/share/nginx/html/*
 
+sudo systemctl restart php-fpm
