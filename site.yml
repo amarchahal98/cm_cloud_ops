@@ -101,8 +101,6 @@
         dest: /home/admin/
         remote_src: yes
 
-    - name: Manage wordpress files
-      
 
     - name: Copy nginx.conf
       copy:
@@ -117,7 +115,7 @@
     - name: Copy www.conf
       copy:
         src: files/www.conf
-        dest: /etc/php-fpm.d/www.con
+        dest: /etc/php-fpm.d/www.conf
 
     - name: Copy wp-config.php
       copy:
