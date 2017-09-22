@@ -1,9 +1,13 @@
 #!/bin/bash
 source vars.sh
 
+# --query = response data structure specification
+
 # SCRIPT #
 vpc_id=$(aws ec2 create-vpc --cidr-block $vpc_cidr --query Vpc.VpcId --output text)
 echo "vpc_id=$vpc_id" > state_file
+
+# Tags allow categorization of AWS resources
 
 aws ec2 create-tags --resources $vpc_id --tags Key=Name,Value=$vpc_name
 
@@ -32,5 +36,6 @@ aws ec2 create-route --route-table-id $route_table_id --destination-cidr-block $
 security_group_id=$(aws ec2 create-security-group --group-name "$security_group_name" --description "$security_group_desc" --vpc-id $vpc_id --query GroupId --output text)
 echo "security_group_id=$security_group_id" >> state_file
 
+# Adds security rules to the Security group
 aws ec2 authorize-security-group-ingress --group-id $security_group_id --protocol tcp --port 22 --cidr $bcit_cidr
 
