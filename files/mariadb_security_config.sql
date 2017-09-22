@@ -1,6 +1,3 @@
-# Login
-mysql -u root -e "
-
 # Set root password
 UPDATE mysql.user SET Password=PASSWORD('nasp19') WHERE User='root';
 
@@ -20,4 +17,4 @@ CREATE USER wordpress_user@localhost IDENTIFIED BY 'nasp19';
 GRANT ALL PRIVILEGES ON wordpress.* TO wordpress_user@localhost;
 
 # Reload privilege tables
-FLUSH PRIVILEGES;"
+FLUSH PRIVILEGES;
