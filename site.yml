@@ -1,0 +1,27 @@
+---
+    - hosts: wp
+
+      vars:
+        mariadb_priv_user: root
+        mariadb_priv_user_passwd: nasp19
+        wordpress_db: wordpress
+        wordpress_db_user: wordpress_user
+        wordpress_db_user_passwd: nasp19
+
+
+      pre_tasks:
+        - name: install packages
+          yum:
+            name: "{{ item }}"
+            state: latest
+          with_items:
+            - epel-release
+            - rsync
+          become: true
+# Role Wordpress has the dependancy of all other roles, causing all roles to be installed
+      roles: 
+        - wordpress
+
+
+
+...
