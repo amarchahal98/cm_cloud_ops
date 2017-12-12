@@ -18,7 +18,7 @@
             - epel-release
             - rsync
           become: true
-
+# Role Wordpress has the dependancy of all other roles, causing all roles to be installed
       roles: 
         - wordpress
 
